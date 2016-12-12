@@ -58,6 +58,21 @@
     <None Include="Maintainability\RethrowAndKeepStackTrace\NoExceptionIdDoesntTriggerAnalyzer.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered_After.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\ExceptionNameIsCorrect.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered2_After.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered2.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Maintainability\RethrowAndKeepStackTrace\DiagnosticTriggered.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

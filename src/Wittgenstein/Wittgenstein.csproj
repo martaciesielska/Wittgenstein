@@ -33,6 +33,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DiagnosticIdProvider.cs" />
+    <Compile Include="Maintainability\ExceptionShouldHaveExceptionInTheirNameAnalyzer.cs" />
+    <Compile Include="Maintainability\ExceptionShouldHaveExceptionInTheirNameCodeFixProvider.cs" />
     <Compile Include="Maintainability\RethrowAndKeepStackTraceCodeFixProvider.cs" />
     <Compile Include="Maintainability\RethrowAndKeepStackTraceAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
