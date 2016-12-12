@@ -23,7 +23,6 @@
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
-            // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/FixAllProvider.md for more information on Fix All Providers
             return WellKnownFixAllProviders.BatchFixer;
         }
 
@@ -34,7 +33,8 @@
             var diagnostic = context.Diagnostics.First();
             var diagnosticSpan = diagnostic.Location.SourceSpan;
 
-            var throwStatement = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<ThrowStatementSyntax>().First();
+            var token = root.FindToken(diagnosticSpan.Start);
+            var throwStatement = token.Parent.AncestorsAndSelf().OfType<ThrowStatementSyntax>().First();
 
             context.RegisterCodeFix(
                 CodeAction.Create(
@@ -48,23 +48,27 @@
         {
             var root = await document.GetSyntaxRootAsync(c);
 
-            var identifierNameNode = throwStatement.ChildNodes()
-                .Select(x => x as IdentifierNameSyntax)
-                .SingleOrDefault(x => x != null);
-
-            var newThrowStatement = throwStatement
-                .RemoveNode(identifierNameNode, SyntaxRemoveOptions.KeepLeadingTrivia);
-
-            var throwToken = newThrowStatement.ChildTokens().FirstOrDefault();
-            var newThrowToken = SyntaxFactory.Token(SyntaxKind.ThrowKeyword);
-
-            newThrowStatement = newThrowStatement
-                .ReplaceToken(throwToken, newThrowToken);
+            var newThrowStatement = RemoveIdentifier(throwStatement);
 
             var newRoot = root.ReplaceNode(throwStatement, newThrowStatement);
             var newDocument = document.WithSyntaxRoot(newRoot);
 
             return newDocument;
+        }
+
+        private ThrowStatementSyntax RemoveIdentifier(ThrowStatementSyntax throwStatement)
+        {
+            var identifierNameNode = throwStatement.ChildNodes()
+                .OfType<IdentifierNameSyntax>()
+                .SingleOrDefault();
+
+            var newThrowStatement = throwStatement
+                .RemoveNode(identifierNameNode, SyntaxRemoveOptions.KeepNoTrivia);
+
+            var throwToken = newThrowStatement.ChildTokens().FirstOrDefault();
+
+            return newThrowStatement
+                .ReplaceToken(throwToken, SyntaxFactory.Token(SyntaxKind.ThrowKeyword).WithLeadingTrivia(throwToken.LeadingTrivia));
         }
     }
 }

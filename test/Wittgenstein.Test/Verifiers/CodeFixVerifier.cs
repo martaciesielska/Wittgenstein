@@ -20,10 +20,7 @@
         /// Returns the codefix being tested (C#) - to be implemented in non-abstract class
         /// </summary>
         /// <returns>The CodeFixProvider to be used for CSharp code</returns>
-        protected virtual CodeFixProvider GetCodeFixProvider()
-        {
-            return null;
-        }
+        protected abstract CodeFixProvider GetCodeFixProvider();
 
         /// <summary>
         /// Called to test a C# codefix when applied on the inputted string as a source

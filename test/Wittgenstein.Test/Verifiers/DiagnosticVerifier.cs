@@ -12,10 +12,7 @@
     /// </summary>
     public abstract partial class DiagnosticVerifier
     {
-        protected virtual DiagnosticAnalyzer GetDiagnosticAnalyzer()
-        {
-            return null;
-        }
+        protected abstract DiagnosticAnalyzer GetDiagnosticAnalyzer();
 
         /// <summary>
         /// Called to test a C# DiagnosticAnalyzer when applied on the single inputted string as a source

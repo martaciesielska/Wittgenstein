@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DiagnosticIdProvider.cs" />
     <Compile Include="Maintainability\RethrowAndKeepStackTraceCodeFixProvider.cs" />
     <Compile Include="Maintainability\RethrowAndKeepStackTraceAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

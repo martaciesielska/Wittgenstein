@@ -4,6 +4,7 @@
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.Diagnostics;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.IO;
     using Wittgenstein.Test.Helpers;
     using Wittgenstein.Test.Verifiers;
 
@@ -42,12 +43,12 @@
         [TestMethod]
         public void DiagnosticTriggered()
         {
-            var test = CodeSampleProvider.GetBeforeCode();
+            var actual = CodeSampleProvider.GetBeforeCode();
 
             var expected = new DiagnosticResult
             {
                 Id = RethrowAndKeepStackTraceAnalyzer.DiagnosticId,
-                Message = string.Format("Exception '{0}' is rethrown with an explicit reference to the exception object.", "ex"),
+                Message = "Exception 'ex' is rethrown with an explicit reference to the exception object.",
                 Severity = DiagnosticSeverity.Warning,
                 Locations = new[]
                         {
@@ -55,10 +56,39 @@
                         }
             };
 
-            this.VerifyDiagnostic(test, expected);
+            this.VerifyDiagnostic(actual, expected);
 
-            var fixtest = CodeSampleProvider.GetAfterCode();
-            this.VerifyFix(test, fixtest);
+            var afterTheFix = CodeSampleProvider.GetAfterCode();
+            this.VerifyFix(actual, afterTheFix);
+        }
+
+        [TestMethod]
+        public void DiagnosticTriggeredMultipleRethrows()
+        {
+            var actual = CodeSampleProvider.GetBeforeCode();
+
+            var expected = new[] 
+            {
+                new DiagnosticResult
+                {
+                    Id = RethrowAndKeepStackTraceAnalyzer.DiagnosticId,
+                    Message = "Exception 'ex' is rethrown with an explicit reference to the exception object.",
+                    Severity = DiagnosticSeverity.Warning,
+                    Locations = new[] { new DiagnosticResultLocation("Test0.cs", 23, 27) }
+                },
+                new DiagnosticResult
+                {
+                    Id = RethrowAndKeepStackTraceAnalyzer.DiagnosticId,
+                    Message = "Exception 'ex' is rethrown with an explicit reference to the exception object.",
+                    Severity = DiagnosticSeverity.Warning,
+                    Locations = new[] { new DiagnosticResultLocation("Test0.cs", 33, 23) }
+                }
+            };
+
+            this.VerifyDiagnostic(actual, expected);
+
+            var afterTheFix = CodeSampleProvider.GetAfterCode();
+            this.VerifyFix(actual, afterTheFix);
         }
 
         protected override CodeFixProvider GetCodeFixProvider()

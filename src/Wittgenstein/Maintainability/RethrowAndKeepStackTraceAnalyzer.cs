@@ -10,7 +10,7 @@ namespace Wittgenstein
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class RethrowAndKeepStackTraceAnalyzer : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "WITTG001";
+        public const string DiagnosticId = DiagnosticIdProvider.RethrowAndKeepStackTrace;
 
         private static readonly string Title = "Stack is reset when exception is thrown."; 
         private static readonly string MessageFormat = "Exception '{0}' is rethrown with an explicit reference to the exception object.";
@@ -29,31 +29,31 @@ namespace Wittgenstein
         private static void CheckIfRethrowPreservesTheStack(SyntaxNodeAnalysisContext context)
         {
             var catchStatement = context.Node as CatchClauseSyntax;
-            if (catchStatement == null) return;
-            if (catchStatement.Declaration == null) return;
-            if (catchStatement.Block == null) return;
+            if (catchStatement == null || catchStatement.Declaration == null || catchStatement.Block == null) { return; }
 
             var identifier = catchStatement.Declaration.Identifier.Text;
-            if (string.IsNullOrEmpty(identifier)) return;
+            if (string.IsNullOrEmpty(identifier)) { return; }
 
-            var throwStatement = catchStatement.Block.ChildNodes()
-                .Select(x => x as ThrowStatementSyntax)
-                .FirstOrDefault(x => x != null);
+            var throwStatements = catchStatement.Block.DescendantNodes()
+                .OfType<ThrowStatementSyntax>();
 
-            if (throwStatement == null) return;
-
-            var thrownIdentifierNode = throwStatement.ChildNodes()
-                .Select(x => x as IdentifierNameSyntax)
-                .SingleOrDefault(x => x != null);
-
-            if (thrownIdentifierNode == null) return;
-
-            var thrownIdentifier = thrownIdentifierNode.GetFirstToken().Text;
-
-            if (identifier == thrownIdentifier)
+            foreach (var throwStatement in throwStatements)
             {
-                var diagnostic = Diagnostic.Create(Rule, thrownIdentifierNode.GetLocation(), identifier);
-                context.ReportDiagnostic(diagnostic);
+                if (throwStatement == null) continue;
+
+                var thrownIdentifierNode = throwStatement.ChildNodes()
+                    .OfType<IdentifierNameSyntax>()
+                    .SingleOrDefault();
+
+                if (thrownIdentifierNode == null) continue;
+
+                var thrownIdentifier = thrownIdentifierNode.GetFirstToken().Text;
+
+                if (identifier == thrownIdentifier)
+                {
+                    var diagnostic = Diagnostic.Create(Rule, thrownIdentifierNode.GetLocation(), identifier);
+                    context.ReportDiagnostic(diagnostic);
+                }
             }
         }
     }
