@@ -10,6 +10,7 @@
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using System;
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(RethrowAndKeepStackTraceCodeFixProvider)), Shared]
     public class RethrowAndKeepStackTraceCodeFixProvider : CodeFixProvider
@@ -48,27 +49,19 @@
         {
             var root = await document.GetSyntaxRootAsync(c);
 
-            var newThrowStatement = RemoveIdentifier(throwStatement);
+            var classDeclaration = throwStatement.Ancestors().OfType<ClassDeclarationSyntax>().Single();
+            var newClassDeclaration = classDeclaration.AddMembers(
+                SyntaxFactory.FieldDeclaration(
+                    SyntaxFactory.VariableDeclaration(
+                        SyntaxFactory.PredefinedType(
+                            SyntaxFactory.Token(SyntaxKind.StringKeyword))))
+            .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PrivateKeyword)))
+            .AddDeclarationVariables(SyntaxFactory.VariableDeclarator("myAddedField" + DateTime.Now.Ticks)));
 
-            var newRoot = root.ReplaceNode(throwStatement, newThrowStatement);
+            var newRoot = root.ReplaceNode(classDeclaration, newClassDeclaration);
             var newDocument = document.WithSyntaxRoot(newRoot);
 
             return newDocument;
-        }
-
-        private ThrowStatementSyntax RemoveIdentifier(ThrowStatementSyntax throwStatement)
-        {
-            var identifierNameNode = throwStatement.ChildNodes()
-                .OfType<IdentifierNameSyntax>()
-                .SingleOrDefault();
-
-            var newThrowStatement = throwStatement
-                .RemoveNode(identifierNameNode, SyntaxRemoveOptions.KeepNoTrivia);
-
-            var throwToken = newThrowStatement.ChildTokens().FirstOrDefault();
-
-            return newThrowStatement
-                .ReplaceToken(throwToken, SyntaxFactory.Token(SyntaxKind.ThrowKeyword).WithLeadingTrivia(throwToken.LeadingTrivia));
         }
     }
 }
