@@ -13,7 +13,7 @@
         internal static string GetBeforeCode()
         {
             var testInfo = GetTestInfo();
-            var relativePath = $"Wittgenstein.CodeSamples\\{testInfo.Category}\\{testInfo.AnalyzerName}\\{testInfo.MethodName}.cs";
+            var relativePath = $"{testInfo.Category}\\{testInfo.AnalyzerName}\\{testInfo.MethodName}.cs";
             return GetFile(relativePath);
         }
 
@@ -22,20 +22,30 @@
         internal static string GetAfterCode()
         {
             var testInfo = GetTestInfo();
-            var relativePath = $"Wittgenstein.CodeSamples\\{testInfo.Category}\\{testInfo.AnalyzerName}\\{testInfo.MethodName}_After.cs";
+            var relativePath = $"{testInfo.Category}\\{testInfo.AnalyzerName}\\{testInfo.MethodName}_After.cs";
             return GetFile(relativePath);
+        }
+
+        internal static string GetRootPath()
+        {
+            var solutionPath = Directory.CreateDirectory(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
+            return Path.Combine(solutionPath, "Wittgenstein.CodeSamples");
         }
 
         private static string GetFile(string relativePath)
         {
-            var testRootPath = Directory.CreateDirectory(
-                Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
-
-            var fullPath = Path.Combine(testRootPath, relativePath);
+            string fullPath = GetFullPath(relativePath);
 
             return File.ReadAllText(fullPath);
         }
 
+        private static string GetFullPath(string relativePath)
+        {
+            string testRootPath = GetRootPath();
+
+            var fullPath = Path.Combine(testRootPath, relativePath);
+            return fullPath;
+        }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static TestInfo GetTestInfo()
