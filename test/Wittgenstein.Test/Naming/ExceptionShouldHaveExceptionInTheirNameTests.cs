@@ -1,10 +1,11 @@
-﻿namespace Wittgenstein.Test.Maintainability
+﻿namespace Wittgenstein.Test.Naming
 {
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.Diagnostics;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
+    using Wittgenstein.Naming;
     using Wittgenstein.Test.Helpers;
     using Wittgenstein.Test.Verifiers;
 

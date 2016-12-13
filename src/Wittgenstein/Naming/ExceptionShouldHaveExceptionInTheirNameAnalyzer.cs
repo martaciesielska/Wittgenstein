@@ -1,11 +1,9 @@
-namespace Wittgenstein
+namespace Wittgenstein.Naming
 {
     using System;
     using System.Collections.Immutable;
     using System.Linq;
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -16,7 +14,7 @@ namespace Wittgenstein
         private static readonly string Title = "Exception name should contain the word exception."; 
         private static readonly string MessageFormat = "Exception name '{0}' should contain the word \"Exception\".";
         private static readonly string Description = "Exception name should contain the word exception."; 
-        private const string Category = "Maintainability";
+        private const string Category = "Naming";
 
         private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 

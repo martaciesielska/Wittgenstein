@@ -58,19 +58,19 @@
     <None Include="Maintainability\RethrowAndKeepStackTrace\NoExceptionIdDoesntTriggerAnalyzer.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered.cs">
+    <None Include="Naming\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered_After.cs">
+    <None Include="Naming\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered_After.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\ExceptionNameIsCorrect.cs">
+    <None Include="Naming\ExceptionShouldHaveExceptionInTheirName\ExceptionNameIsCorrect.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered2_After.cs">
+    <None Include="Naming\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered2_After.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Maintainability\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered2.cs">
+    <None Include="Naming\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered2.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Properties\AssemblyInfo.cs" />

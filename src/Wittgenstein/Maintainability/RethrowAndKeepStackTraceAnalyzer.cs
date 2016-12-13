@@ -1,4 +1,4 @@
-namespace Wittgenstein
+namespace Wittgenstein.Maintainability
 {
     using System.Collections.Immutable;
     using System.Linq;

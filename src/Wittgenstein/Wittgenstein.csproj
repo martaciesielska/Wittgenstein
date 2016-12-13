@@ -33,8 +33,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DiagnosticIdProvider.cs" />
-    <Compile Include="Maintainability\ExceptionShouldHaveExceptionInTheirNameAnalyzer.cs" />
-    <Compile Include="Maintainability\ExceptionShouldHaveExceptionInTheirNameCodeFixProvider.cs" />
+    <Compile Include="Naming\ExceptionShouldHaveExceptionInTheirNameAnalyzer.cs" />
+    <Compile Include="Naming\ExceptionShouldHaveExceptionInTheirNameCodeFixProvider.cs" />
     <Compile Include="Maintainability\RethrowAndKeepStackTraceCodeFixProvider.cs" />
     <Compile Include="Maintainability\RethrowAndKeepStackTraceAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +103,7 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\v4.6\Microsoft.Portable.CSharp.targets" />
   <Target Name="AfterBuild">
     <GetAssemblyIdentity AssemblyFiles="$(OutDir)\$(AssemblyName).dll">

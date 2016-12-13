@@ -1,6 +1,5 @@
-﻿namespace Wittgenstein
+﻿namespace Wittgenstein.Naming
 {
-    using System;
     using System.Collections.Immutable;
     using System.Composition;
     using System.Linq;
@@ -12,7 +11,6 @@
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using System.Text.RegularExpressions;
-    using System.Text;
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ExceptionShouldHaveExceptionInTheirNameCodeFixProvider)), Shared]
     public class ExceptionShouldHaveExceptionInTheirNameCodeFixProvider : CodeFixProvider

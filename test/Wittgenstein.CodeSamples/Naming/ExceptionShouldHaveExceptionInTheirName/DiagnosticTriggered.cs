@@ -1,4 +1,4 @@
-﻿namespace Wittgenstein.CodeSamples.Maintainability
+﻿namespace Wittgenstein.CodeSamples.Naming
 {
     using System;
 

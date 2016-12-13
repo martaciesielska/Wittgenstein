@@ -116,7 +116,7 @@
     <Compile Include="Helpers\AdHocFactories\DocumentFactory.cs" />
     <Compile Include="Helpers\AdHocFactories\ProjectFactory.cs" />
     <Compile Include="Helpers\Extensions\DocumentExtensions.cs" />
-    <Compile Include="Maintainability\ExceptionShouldHaveExceptionInTheirNameTests.cs" />
+    <Compile Include="Naming\ExceptionShouldHaveExceptionInTheirNameTests.cs" />
     <Compile Include="Maintainability\RethrowAndKeepStackTraceTests.cs" />
     <Compile Include="Verifiers\CodeFixVerifier.cs" />
     <Compile Include="Verifiers\DiagnosticFormatter.cs" />

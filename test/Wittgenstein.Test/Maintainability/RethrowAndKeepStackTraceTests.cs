@@ -4,7 +4,7 @@
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.Diagnostics;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.IO;
+    using Wittgenstein.Maintainability;
     using Wittgenstein.Test.Helpers;
     using Wittgenstein.Test.Verifiers;
 
