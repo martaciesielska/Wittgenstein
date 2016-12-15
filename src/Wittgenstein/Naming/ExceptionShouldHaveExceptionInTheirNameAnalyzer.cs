@@ -28,25 +28,28 @@ namespace Wittgenstein.Naming
         private void CheckIfExceptionIsNamedCorrectly(SymbolAnalysisContext context)
         {
             var typeSymbol = context.Symbol as INamedTypeSymbol;
-            if (typeSymbol == null || typeSymbol.TypeKind != TypeKind.Class) return;
+            var exceptionSymbol = context.Compilation.GetTypeByMetadataName("System.Exception");
 
-            if (InheritsFrom(typeSymbol, typeof(Exception)) && !typeSymbol.Name.EndsWith("Exception"))
+            if (InheritsFrom(typeSymbol, exceptionSymbol) && !typeSymbol.Name.Contains("Exception"))
             {
-                var location = typeSymbol.Locations.First();
-                var diagnostic = Diagnostic.Create(Rule, location, typeSymbol.Name);
+                var diagnostic = Diagnostic.Create(Rule, typeSymbol.Locations.First(), typeSymbol.Name);
                 context.ReportDiagnostic(diagnostic);
             }
         }
 
-        private bool InheritsFrom(INamedTypeSymbol typeSymbol, Type type)
+        private bool InheritsFrom(INamedTypeSymbol child, INamedTypeSymbol ancestor)
         {
-            if (typeSymbol.BaseType is IErrorTypeSymbol) return false;
-            if (type == typeof(object)) return true;
+            if (child.BaseType.SpecialType == SpecialType.System_Object)
+            {
+                return false;
+            }
 
-            if (typeSymbol.BaseType.SpecialType == SpecialType.System_Object) return false;
+            if (child.BaseType.Equals(ancestor))
+            {
+                return true;
+            }
 
-            if (typeSymbol.BaseType.ToDisplayString() == type.FullName) return true;
-            return InheritsFrom(typeSymbol.BaseType, type);
+            return InheritsFrom(child.BaseType, ancestor);
         }
     }
 }
