@@ -28,6 +28,13 @@
         }
 
         [TestMethod]
+        public void NotAnException()
+        {
+            var before = CodeSampleProvider.GetBeforeCode();
+            this.VerifyDiagnostic(before);
+        }
+
+        [TestMethod]
         public void DiagnosticTriggered()
         {
             var actual = CodeSampleProvider.GetBeforeCode();

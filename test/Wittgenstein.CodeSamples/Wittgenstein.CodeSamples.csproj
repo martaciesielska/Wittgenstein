@@ -73,6 +73,9 @@
     <None Include="Naming\ExceptionShouldHaveExceptionInTheirName\DiagnosticTriggered2.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Naming\ExceptionShouldHaveExceptionInTheirName\NotAnException.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Maintainability\RethrowAndKeepStackTrace\DiagnosticTriggered.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
