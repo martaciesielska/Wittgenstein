@@ -10,6 +10,8 @@
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using Microsoft.CodeAnalysis.Editing;
+    using System;
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(RethrowAndKeepStackTraceCodeFixProvider)), Shared]
     public class RethrowAndKeepStackTraceCodeFixProvider : CodeFixProvider
@@ -47,10 +49,24 @@
         private async Task<Document> FixRethrow(Document document, ThrowStatementSyntax throwStatement, CancellationToken c)
         {
             var root = await document.GetSyntaxRootAsync(c);
+            var identifier = throwStatement.ChildNodes().OfType<IdentifierNameSyntax>().SingleOrDefault();
 
-            var newThrowStatement = RemoveIdentifier(throwStatement);
+            var id = identifier?.ToString() 
+                ?? DateTime.Now.Ticks.ToString();
 
-            var newRoot = root.ReplaceNode(throwStatement, newThrowStatement);
+            var methodName = "DoStuff" + id;
+            var classDeclaration = throwStatement.Parent.AncestorsAndSelf().OfType<ClassDeclarationSyntax>().Single();
+
+            var generator = SyntaxGenerator.GetGenerator(document);
+            var method = generator
+                .MethodDeclaration(
+                    name: methodName,
+                    returnType: SyntaxFactory.ParseTypeName("void"),
+                    accessibility: Accessibility.Protected).NormalizeWhitespace();
+
+            var newClassDeclaration = generator.InsertMembers(classDeclaration, 0, method);
+
+            var newRoot = root.ReplaceNode(classDeclaration, newClassDeclaration);
             var newDocument = document.WithSyntaxRoot(newRoot);
 
             return newDocument;
